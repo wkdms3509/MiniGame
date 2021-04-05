@@ -1,7 +1,7 @@
 'use strict';
 
 const CARROT_SIZE = 80;
-const CARROT_COUNT = 10;
+const CARROT_COUNT = 5;
 const BUG_COUNT = 5;
 const GAME_DURATION_SEC = 5;
 
@@ -20,6 +20,13 @@ let started = false;
 let score = 0;
 let timer = undefined;
 
+// sound 변수
+const carrotSound = new Audio('sound/carrot_pull.mp3');
+const bugSound = new Audio('sound/bug_pull.mp3');
+const bgSound = new Audio('sound/bg.mp3');
+const alertSound = new Audio('sound/alert.wav');
+const winSound = new Audio('sound/game_win.mp3');
+
 field.addEventListener('click', onFieldClick);
 
 // 게임 버튼 클릭 이벤트
@@ -34,6 +41,7 @@ gameBtn.addEventListener('click', () => {
 popUpRefresh.addEventListener('click', () => {
     startGame();
     hidePopUp();
+    stopSound(winSound);
 });
 
 function startGame() {
@@ -42,6 +50,7 @@ function startGame() {
     showStopButton();
     showTimerAndScore();
     startGameTimer();
+    playSound(bgSound);
 }
 
 function stopGame() {
@@ -49,11 +58,20 @@ function stopGame() {
     stopGameTimer();
     hideGameButton();
     showPopUpWithText('REPLAY? 🤣');
+    playSound(alertSound);
+    stopSound(bgSound);
 }
 
 function finishGame(win) {
     started = false;
     hideGameButton();
+    if(win) {
+        playSound(winSound);
+    } else {
+        playSound(bugSound);
+    }
+    stopGameTimer();
+    stopSound(bgSound);
     showPopUpWithText(win ? 'YOU WIN! 💪' : 'YOU LOST...');
 }
 
@@ -101,6 +119,7 @@ function showPopUpWithText(text) {
 }
 
 function initGame() {
+    score = 0;
     field.innerHTML = '';
     gameScore.innerText = CARROT_COUNT;
     addItem('carrot', CARROT_COUNT, 'img/carrot.png');
@@ -115,14 +134,25 @@ function onFieldClick(event) {
     if(target.matches('.carrot')) { // css 셀렉터의 해당 여부 확인
         target.remove();
         score++;
+        playSound(carrotSound);
         updateScoreBoard();
         if(score === CARROT_COUNT) {
             finishGame(true);
         }
     } else if(target.matches('.bug')) {
-        stopGameTimer();
+        playSound(bugSound);
+        stopSound(bgSound);
         finishGame(false);
     }
+}
+
+function playSound(sound) {
+    sound.currentTime = 0;
+    sound.play();
+}
+
+function stopSound(sound) {
+    sound.pause();
 }
 
 function updateScoreBoard() {
