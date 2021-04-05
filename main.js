@@ -20,6 +20,8 @@ let started = false;
 let score = 0;
 let timer = undefined;
 
+field.addEventListener('click', onFieldClick);
+
 // 게임 버튼 클릭 이벤트
 gameBtn.addEventListener('click', () => {
     if(started) {
@@ -90,6 +92,34 @@ function initGame() {
     gameScore.innerText = CARROT_COUNT;
     addItem('carrot', CARROT_COUNT, 'img/carrot.png');
     addItem('bug', BUG_COUNT, 'img/bug.png');
+}
+
+function onFieldClick(event) {
+    if(!started) {
+        return;
+    }
+    const target = event.target;
+    if(target.matches('.carrot')) { // css 셀렉터의 해당 여부 확인
+        target.remove();
+        score++;
+        updateScoreBoard();
+        if(score === CARROT_COUNT) {
+            finishGame(true);
+        }
+    } else if(target.matches('.bug')) {
+        stopGameTimer();
+        finishGame(false);
+    }
+}
+
+function finishGame(win) {
+    started = false;
+    hideGameButton();
+    showPopUpWithText(win ? 'YOU WIN! 💪' : 'YOU LOST...');
+}
+
+function updateScoreBoard() {
+    gameScore.innerText = CARROT_COUNT - score;    
 }
 
 // 아이템 추가 
