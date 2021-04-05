@@ -45,6 +45,18 @@ button {
   margin-top: 8px;
 }
 
+.game__score {
+  width: 60px;
+  height: 60px;
+  background-color: darksalmon;
+  border: 3px solid black;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 42px;
+  color: white;
+  margin-top: 8px;
+}
+
 /* field */
 .game__field {
   background-color: blueviolet;
