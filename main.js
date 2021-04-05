@@ -9,7 +9,11 @@ const field = document.querySelector('.game__field');
 const fieldRect = field.getBoundingClientRect(); 
 const gameBtn = document.querySelector('.game__button');
 const gameTimer = document.querySelector('.game__timer');
-const gameScore = document.querySelector('.game__score')
+const gameScore = document.querySelector('.game__score');
+
+const popUp = document.querySelector('.pop-up');
+const popUpRefresh = document.querySelector('.pop-up__refresh');
+const popUpText = document.querySelector('.pop-up__message');
 
 // 게임 상태, 스코어, 타이머를 기억하고 있는 변수
 let started = false;
@@ -34,13 +38,19 @@ function startGame() {
 }
 
 function stopGame() {
-
+    stopGameTimer();
+    hideGameButton();
+    showPopUpWithText('REPLAY? 🤣');
 }
 
 function showStopButton() {
     const icon = gameBtn.querySelector('.fas');
     icon.classList.add('fa-stop');
     icon.classList.remove('fa-play');
+}
+
+function hideGameButton() {
+    gameBtn.style.visibility = 'hidden';
 }
 
 function showTimerAndScore() {
@@ -60,10 +70,19 @@ function startGameTimer() {
     }, 1000);
 }
 
+function stopGameTimer() {
+    clearInterval(timer);
+}
+
 function updateTimerText(time) {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
     gameTimer.innerText = `${minutes}:${seconds}`;
+}
+
+function showPopUpWithText(text) {
+    popUpText.innerText = text;
+    popUp.classList.remove('pop-up--hide');
 }
 
 function initGame() {
