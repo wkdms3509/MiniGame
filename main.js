@@ -1,7 +1,7 @@
 'use strict';
 
 const CARROT_SIZE = 80;
-const CARROT_COUNT = 7;
+const CARROT_COUNT = 5;
 const BUG_COUNT = 5;
 
 const field = document.querySelector('.game__field');
@@ -15,8 +15,39 @@ let started = false;
 let score = 0;
 let timer = undefined;
 
+// 게임 버튼 클릭 이벤트
+gameBtn.addEventListener('click', () => {
+    if(started) {
+        stopGame();
+    } else {
+        startGame();
+    }
+    started = !started;
+});
+
+function startGame() {
+    initGame();
+    showStopButton();
+    showTimerAndScore();
+}
+
+function stopGame() {
+
+}
+
+function showStopButton() {
+    const icon = gameBtn.querySelector('.fas');
+    icon.classList.add('fa-stop');
+    icon.classList.remove('fa-play');
+}
+
+function showTimerAndScore() {
+    gameTimer.style.visibility = 'visible';
+    gameScore.style.visibility = 'visible';
+}
+
 function initGame() {
-    console.log(fieldRect);
+    field.innerHTML = '';
     addItem('carrot', CARROT_COUNT, 'img/carrot.png');
     addItem('bug', BUG_COUNT, 'img/bug.png');
 }
@@ -45,5 +76,3 @@ function addItem(className, count, imgPath) {
 function randomNumber(min, max) {
     return Math.random() * (max - min) + min;
 }
-
-initGame();
