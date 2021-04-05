@@ -29,10 +29,15 @@ gameBtn.addEventListener('click', () => {
     } else {
         startGame();
     }
-    started = !started;
+});
+
+popUpRefresh.addEventListener('click', () => {
+    startGame();
+    hidePopUp();
 });
 
 function startGame() {
+    started = true;
     initGame();
     showStopButton();
     showTimerAndScore();
@@ -40,9 +45,16 @@ function startGame() {
 }
 
 function stopGame() {
+    started = false;
     stopGameTimer();
     hideGameButton();
     showPopUpWithText('REPLAY? 🤣');
+}
+
+function finishGame(win) {
+    started = false;
+    hideGameButton();
+    showPopUpWithText(win ? 'YOU WIN! 💪' : 'YOU LOST...');
 }
 
 function showStopButton() {
@@ -66,6 +78,7 @@ function startGameTimer() {
     timer = setInterval(() => {
         if(remainingTimeSec <= 0){
             clearInterval(timer);
+            finishGame(CARROT_COUNT === score);
             return;
         }
         updateTimerText(--remainingTimeSec);
@@ -112,14 +125,12 @@ function onFieldClick(event) {
     }
 }
 
-function finishGame(win) {
-    started = false;
-    hideGameButton();
-    showPopUpWithText(win ? 'YOU WIN! 💪' : 'YOU LOST...');
-}
-
 function updateScoreBoard() {
     gameScore.innerText = CARROT_COUNT - score;    
+}
+
+function hidePopUp() {
+    popUp.classList.add('pop-up--hide');
 }
 
 // 아이템 추가 
