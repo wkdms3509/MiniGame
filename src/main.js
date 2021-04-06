@@ -1,5 +1,7 @@
 'use strict';
 
+import PopUp from './popup.js';
+
 const CARROT_SIZE = 80;
 const CARROT_COUNT = 10;
 const BUG_COUNT = 5;
@@ -10,10 +12,6 @@ const fieldRect = field.getBoundingClientRect();
 const gameBtn = document.querySelector('.game__button');
 const gameTimer = document.querySelector('.game__timer');
 const gameScore = document.querySelector('.game__score');
-
-const popUp = document.querySelector('.pop-up');
-const popUpRefresh = document.querySelector('.pop-up__refresh');
-const popUpText = document.querySelector('.pop-up__message');
 
 // 게임 상태, 스코어, 타이머를 기억하고 있는 변수
 let started = false;
@@ -27,6 +25,12 @@ const bgSound = new Audio('sound/bg.mp3');
 const alertSound = new Audio('sound/alert.wav');
 const winSound = new Audio('sound/game_win.mp3');
 
+// import한 클래스의 변수 생성
+const gameFinishBanner = new PopUp();
+gameFinishBanner.setClickListener(() => {
+    startGame();
+});
+
 field.addEventListener('click', onFieldClick);
 
 // 게임 버튼 클릭 이벤트
@@ -36,12 +40,6 @@ gameBtn.addEventListener('click', () => {
     } else {
         startGame();
     }
-});
-
-popUpRefresh.addEventListener('click', () => {
-    startGame();
-    hidePopUp();
-    stopSound(winSound);
 });
 
 function startGame() {
@@ -57,7 +55,7 @@ function stopGame() {
     started = false;
     stopGameTimer();
     hideGameButton();
-    showPopUpWithText('REPLAY? 🤣');
+    gameFinishBanner.showWtihText('REPLAY? 🤣');
     playSound(alertSound);
     stopSound(bgSound);
 }
@@ -72,7 +70,7 @@ function finishGame(win) {
     }
     stopGameTimer();
     stopSound(bgSound);
-    showPopUpWithText(win ? 'YOU WIN! 💪' : 'YOU LOST...');
+    gameFinishBanner.showWtihText(win ? 'YOU WIN! 💪' : 'YOU LOST...');
 }
 
 function showStopButton() {
@@ -114,11 +112,6 @@ function updateTimerText(time) {
     gameTimer.innerText = `${minutes}:${seconds}`;
 }
 
-function showPopUpWithText(text) {
-    popUpText.innerText = text;
-    popUp.classList.remove('pop-up--hide');
-}
-
 function initGame() {
     score = 0;
     field.innerHTML = '';
@@ -158,10 +151,6 @@ function stopSound(sound) {
 
 function updateScoreBoard() {
     gameScore.innerText = CARROT_COUNT - score;    
-}
-
-function hidePopUp() {
-    popUp.classList.add('pop-up--hide');
 }
 
 // 아이템 추가 
