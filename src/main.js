@@ -2,6 +2,7 @@
 
 import PopUp from './popup.js';
 import Field from './field.js';
+import * as sound from './sound.js';
 
 const CARROT_COUNT = 10;
 const BUG_COUNT = 5;
@@ -16,13 +17,6 @@ let started = false;
 let score = 0;
 let timer = undefined;
 
-// sound 변수
-// const carrotSound = new Audio('sound/carrot_pull.mp3');
-const bugSound = new Audio('sound/bug_pull.mp3');
-const bgSound = new Audio('sound/bg.mp3');
-const alertSound = new Audio('sound/alert.wav');
-const winSound = new Audio('sound/game_win.mp3');
-
 // import한 클래스의 변수 생성
 const gameFinishBanner = new PopUp();
 gameFinishBanner.setClickListener(() => {
@@ -30,7 +24,7 @@ gameFinishBanner.setClickListener(() => {
 });
 
 const gameField = new Field(CARROT_COUNT, BUG_COUNT);
-gameField.setClickListener((item) => onItemClick);
+gameField.setClickListener(onItemClick);
 
 function onItemClick(item) {
     if(!started) {
@@ -62,7 +56,7 @@ function startGame() {
     showStopButton();
     showTimerAndScore();
     startGameTimer();
-    playSound(bgSound);
+    sound.playBackground();
 }
 
 function stopGame() {
@@ -70,20 +64,20 @@ function stopGame() {
     stopGameTimer();
     hideGameButton();
     gameFinishBanner.showWtihText('REPLAY? 🤣');
-    playSound(alertSound);
-    stopSound(bgSound);
+    sound.playAlert();
+    sound.stopBackground();
 }
 
 function finishGame(win) {
     started = false;
     hideGameButton();
     if(win) {
-        playSound(winSound);
+        sound.playWin();
     } else {
-        playSound(bugSound);
+        sound.playBackground();
     }
     stopGameTimer();
-    stopSound(bgSound);
+    sound.stopBackground();
     gameFinishBanner.showWtihText(win ? 'YOU WIN! 💪' : 'YOU LOST...');
 }
 
@@ -130,15 +124,6 @@ function initGame() {
     score = 0;
     gameScore.innerText = CARROT_COUNT;
     gameField.init();
-}
-
-function playSound(sound) {
-    sound.currentTime = 0;
-    sound.play();
-}
-
-function stopSound(sound) {
-    sound.pause();
 }
 
 function updateScoreBoard() {
