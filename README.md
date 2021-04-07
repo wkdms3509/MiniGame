@@ -78,7 +78,7 @@
 
 #### 과정
 
-- 그러나 리팩토리 과정에서 아래 코드와 같이 변수를 선언할 때 Object.freeze 매서드를 이용하여 사용하고자 하는 값을 배열로 정의해주었다.
+- 리팩토리 과정에서 아래 코드와 같이 변수를 선언할 때 Object.freeze 매서드를 이용하여 사용하고자 하는 값을 배열로 정의해주었다.
 
 ![캡처 8](https://user-images.githubusercontent.com/63761624/113827452-47da4780-97be-11eb-9ae8-9c62599ed2d6.PNG)
 
@@ -93,3 +93,28 @@
 ![캡처 9-1](https://user-images.githubusercontent.com/63761624/113830699-d603fd00-97c1-11eb-92be-bae0e40deb1b.png)
 
 ![캡처 10-1](https://user-images.githubusercontent.com/63761624/113831642-c9cc6f80-97c2-11eb-90fb-cb7938146e2f.png)
+
+### 2. 웹 서버 연결
+
+#### 문제
+
+- HTML에서 나눠 놓은 섹션을 토대로 각각의 섹션과 필요한 기능에 따라 이해하기 쉽도록 js 파일로 나눠서 리팩토링 하였다.
+
+- 그리고 JavaScipt ES6 에서 파일을 서로 import 할 수 있도록 html 파일에서 해당 스크립트에 type = "module"을 추가하였지만 import하는 과정에 에러가 생겼다.
+
+#### 원인
+
+- 해당 js 파일의 script에 type = "module"을 추가하면 자바스크립트 모듈 보안 요구사항으로 인해 로컬에서 실행할 때 오류가 발생한다.
+- 로컬 시스템에서 로컬 파일의 리소스를 요청 할 때 origin이 null로 넘어가서 CORS 에러가 발생한다. 브라우저는 웹에서 로컬 파일에 접근을 하지 못하도록 이 같은 방법을 사용한다.
+
+#### 해결방법
+
+- 1. 터미널에서 http-server를 설치하고 실행하여 해당하는 폴더를 서버에 올리고 나타나는 포트로 접속하면 된다.
+
+- 2. **(내가 사용한 방법)** 구글 크롬을 쓰고 있어서 크롬 앱스토어 (https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb?hl=ko)에 들어가서 앱을 설치하고 실행시켜준다. 해당 폴더를 선택하고 나타는 포트로 접속하였다.
+
+- 3. 루트 디렉토리에 있는 pacakge.json 파일에서 “type” : “module” 추가Permalink
+
+#### 결과
+
+- 콘솔에 해당 에러가 사라지고 정상적으로 접속이 가능한 것이 보여진다.
