@@ -94,8 +94,6 @@
 
 ![캡처 10-1](https://user-images.githubusercontent.com/63761624/113831642-c9cc6f80-97c2-11eb-90fb-cb7938146e2f.png)
 
----
-
 ### 2. 웹 서버 연결
 
 #### 문제
@@ -113,7 +111,7 @@
 
 - 1. 터미널에서 http-server를 설치하고 실행하여 해당하는 폴더를 서버에 올리고 나타나는 포트로 접속하면 된다.
 
-- 2. **(내가 사용한 방법)** 구글 크롬을 쓰고 있어서 크롬 앱스토어 (https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb?hl=ko)에 들어가서 앱을 설치하고 실행시켜준다. 해당 폴더를 선택하고 나타는 포트로 접속하였다.
+- 2. **(내가 사용한 방법)** 구글 크롬을 쓰고 있어서 크롬 앱스토어 (https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb?hl=ko)에 들어가서 앱을 설치하고 실행시켜준다. 해당 폴더를 선택해주고 나타나는 포트로 접속하였다.
 
 - 3. 루트 디렉토리에 있는 pacakge.json 파일에서 “type” : “module” 추가Permalink
 
