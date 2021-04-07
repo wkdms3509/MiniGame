@@ -94,6 +94,8 @@
 
 ![캡처 10-1](https://user-images.githubusercontent.com/63761624/113831642-c9cc6f80-97c2-11eb-90fb-cb7938146e2f.png)
 
+---
+
 ### 2. 웹 서버 연결
 
 #### 문제
